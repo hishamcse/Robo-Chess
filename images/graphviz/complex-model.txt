@@ -7,18 +7,8 @@ digraph G {
         Input [label="Input\n(batch_size, 8, 8, 14)"];
     }
     
-    subgraph cluster_stem {
-        label="Stem";
-        Conv1 [label="Conv2D(14, 64)\nkernel_size=3, stride=1, padding=1"];
-        BN1 [label="BatchNorm2D(64)"];
-        ReLU1 [label="ReLU"];
-        { rank=same Conv1 BN1 ReLU1 }
-        Conv1 -> BN1 -> ReLU1;
-    }
-    
     subgraph cluster_bottleneck {
         label="BottleneckResidualBlock";
-        rankdir=TB;
         Conv2a [label="Conv2D\n(kernel_size=3, stride=2, padding=1)"];
         BN2a [label="BatchNorm2D"];
         ReLU2a [label="ReLU"];
@@ -32,6 +22,15 @@ digraph G {
         Conv2a -> BN2a -> ReLU2a -> Conv2b -> BN2b -> SE;
         SE -> Add;
         Downsample -> Add [constraint=false, style=dotted];
+    }
+    
+    subgraph cluster_stem {
+        label="Stem";
+        Conv1 [label="Conv2D(14, 64)\nkernel_size=3, stride=1, padding=1"];
+        BN1 [label="BatchNorm2D(64)"];
+        ReLU1 [label="ReLU"];
+        { rank=same Conv1 BN1 ReLU1 }
+        Conv1 -> BN1 -> ReLU1;
     }
     
     subgraph cluster_residual {
@@ -57,4 +56,8 @@ digraph G {
     Input -> Conv1;
     ReLU1 -> BRB1;
     BRB3 -> Conv2;
+    
+    // Aligning BottleneckResidualBlock to the left of Input
+    { rank=same; InvisibleNode [style=invis]; Input }
+    Conv2a -> InvisibleNode [style=invis];
 }
