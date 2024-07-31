@@ -1,0 +1,43 @@
+digraph G {
+    rankdir=LR;
+    node [shape=rect, style=filled, color=lightblue2, fontsize=10, fontname="Arial"];
+
+    subgraph cluster_input {
+        label="Input";
+        Input [label="Input\n(batch_size, 8, 8, 14)"];
+    }
+
+    subgraph cluster_conv {
+        label="Convolutional Layers";
+        // rankdir=ORTHO;
+        Conv1 [label="Conv2D(14, 32)\nkernel_size=3, stride=1, padding=1"];
+        ReLU1 [label="ReLU"];
+        MaxPool1 [label="MaxPool\nkernel_size=2, stride=2"];
+        Conv2 [label="Conv2D(32, 64)\nkernel_size=3, stride=1, padding=1"];
+        ReLU2 [label="ReLU"];
+        MaxPool2 [label="MaxPool\nkernel_size=2, stride=2"];
+        { rank=same MaxPool2 ReLU2 Conv2 MaxPool1 ReLU1 Conv1 }
+        Conv1 -> ReLU1 -> MaxPool1 -> Conv2 -> ReLU2 -> MaxPool2;
+    }
+
+    subgraph cluster_fc {
+        label="Fully Connected Layers";
+        // rankdir=ORTHO;
+        Flatten [label="Flatten"];
+        Dense1 [label="Dense(64*2*2, 1000)"];
+        ReLU3 [label="ReLU"];
+        Dense2 [label="Dense(1000, 1000)"];
+        ReLU4 [label="ReLU"];
+        Dense3 [label="Dense(1000, 1000)"];
+        ReLU5 [label="ReLU"];
+        Dense4 [label="Dense(1000, 200)"];
+        ReLU6 [label="ReLU"];
+        Output [label="Dense(200, 4672)"];
+        { rank=same Output ReLU6 Dense4 ReLU5 Dense3 ReLU4 Dense2 ReLU3 Dense1 Flatten }
+        MaxPool2 -> Flatten;
+        Flatten -> Dense1 -> ReLU3 -> Dense2 -> ReLU4 -> Dense3 -> ReLU5 -> Dense4 -> ReLU6 -> Output;
+    }
+    
+    Input -> Conv1;
+    // MaxPool2 -> Flatten [style=bold];
+}

@@ -1,0 +1,60 @@
+digraph G {
+    rankdir=LR;
+    node [shape=rect, style=filled, color=lightblue2, fontsize=10, fontname="Arial"];
+
+    subgraph cluster_input {
+        label="Input";
+        Input [label="Input\n(batch_size, 8, 8, 14)"];
+    }
+    
+    subgraph cluster_stem {
+        label="Stem";
+        Conv1 [label="Conv2D(14, 64)\nkernel_size=3, stride=1, padding=1"];
+        BN1 [label="BatchNorm2D(64)"];
+        ReLU1 [label="ReLU"];
+        { rank=same Conv1 BN1 ReLU1 }
+        Conv1 -> BN1 -> ReLU1;
+    }
+    
+    subgraph cluster_bottleneck {
+        label="BottleneckResidualBlock";
+        rankdir=TB;
+        Conv2a [label="Conv2D\n(kernel_size=3, stride=2, padding=1)"];
+        BN2a [label="BatchNorm2D"];
+        ReLU2a [label="ReLU"];
+        Conv2b [label="Conv2D\n(kernel_size=3, padding=1)"];
+        BN2b [label="BatchNorm2D"];
+        SE [label="SqueezeExcitation"];
+        Add [label="Addition"];
+        ReLU2b [label="ReLU"];
+        Downsample [label="Downsample\n(Conv2D + BatchNorm2D)"];
+        { rank=same; Conv2a -> BN2a -> ReLU2a -> Conv2b -> BN2b -> SE -> Add -> ReLU2b; Downsample }
+        Conv2a -> BN2a -> ReLU2a -> Conv2b -> BN2b -> SE;
+        SE -> Add;
+        Downsample -> Add [constraint=false, style=dotted];
+    }
+    
+    subgraph cluster_residual {
+        label="Residual Blocks";
+        BRB1 [label="BottleneckResidualBlock\n(64, 128, stride=2)"];
+        BRB2 [label="BottleneckResidualBlock\n(128, 256, stride=2)"];
+        BRB3 [label="BottleneckResidualBlock\n(256, 512, stride=2)"];
+        { rank=same BRB1 BRB2 BRB3 }
+        BRB1 -> BRB2 -> BRB3;
+    }
+
+   subgraph cluster_policy {
+        label="Policy Head";
+        Conv2 [label="Conv2D(512, 256)\nkernel_size=1"];
+        BN2 [label="BatchNorm2D(256)"];
+        ReLU2 [label="ReLU"];
+        Flatten [label="Flatten"];
+        Dense [label="Dense(256, 4672)"];
+        { rank=same Conv2 BN2 ReLU2 Flatten Dense }
+        Conv2 -> BN2 -> ReLU2 -> Flatten -> Dense;
+    }
+
+    Input -> Conv1;
+    ReLU1 -> BRB1;
+    BRB3 -> Conv2;
+}
