@@ -94,3 +94,9 @@ The **Chess-Engine-Self-Play-Imitation** approach showed great promise but deman
 - [Github Codebase](https://github.com/Nishantsgithub/Chess-AI-Development-Using-Reinforcement-Learning)
 - [Report Paper](https://github.com/Nishantsgithub/Chess-AI-Development-Using-Reinforcement-Learning/blob/main/Dissertation.pdf)
 - [GraphViz](https://dreampuf.github.io/GraphvizOnline)
+
+## My DRL Projects
+You can view my other repositories on **Deep Reinforcement Learning** projects
+- [DRL-Renegades-Game-Bots](https://github.com/hishamcse/DRL-Renegades-Game-Bots)
+- [Advanced-DRL-Renegades-Game-Bots](https://github.com/hishamcse/Advanced-DRL-Renegades-Game-Bots)
+- [Kaggle Notebooks on DRL](https://www.kaggle.com/syedjarullahhisham/code?tags=13313)
