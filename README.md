@@ -5,6 +5,21 @@
 
 **Robo-Chess**, a comprehensive repository dedicated to developing chess engines using a variety of **Deep Reinforcement Learning** techniques. This repository includes multiple projects, each focusing on different aspects of chess AI, from self-play imitation learning to endgame solving with deep Q-networks. It also adds solution to a kaggle chess competition.
 
+# Table of Contents
+
+- [Detailed Overview](#detailed-overview)
+   - [Chess-Engine-Self-Play-Imitation](#chess-engine-self-play-imitation)
+     - [Directory Structure](#directory-structure)
+     - [Model Architectures](#model-architectures)
+   - [kaggle-chess-competition](#kaggle-chess-competition)
+     - [Directory Structure](#directory-structure-1)
+   - [Chess-Endgame](#chess-endgame)
+     - [Directory Structure](#directory-structure-2)
+- [Notebooks on Kaggle](#notebooks-on-kaggle)
+- [Limitations](#limitations)
+- [Acknowledgements](#acknowledgements)
+- [My DRL Projects](#my-drl-projects)
+
 # Detailed Overview
 
 ## Chess-Engine-Self-Play-Imitation
@@ -57,7 +72,7 @@ This project focuses on endgame solving using DQN (Deep Q-Network) and DDQN (Dou
  - [Github Codebase](https://github.com/Nishantsgithub/Chess-AI-Development-Using-Reinforcement-Learning)
  - [Report Paper](https://github.com/Nishantsgithub/Chess-AI-Development-Using-Reinforcement-Learning/blob/main/Dissertation.pdf)
 
-**Directory Structure**
+### Directory Structure
 - **Chess_env_gym.py**: Environment setup for training DQN models.
 - **DDQN-tianshou.py**: Implementation of Double DQN using the Tianshou library.
 - **DQN-tianshou.py**: Implementation of DQN using the Tianshou library.
