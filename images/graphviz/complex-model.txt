@@ -1,7 +1,7 @@
 digraph G {
     rankdir=LR;
     compound=true; 
-    node [shape=rect, style=filled, color=lightblue2, fontsize=11, fontname="Arial"];
+    node [shape=rect, style=filled, color=lightskyblue, fontsize=11, fontname="Arial"];
     
     subgraph cluster_input {
         label="Input";
