@@ -7,6 +7,16 @@ digraph G {
         Input [label="Input\n(batch_size, 8, 8, 14)"];
     }
     
+    subgraph cluster_squeeze_excitation {
+        label="SqueezeExcitation";
+        FC1 [label="Linear\n(channels, channels // reduction)"];
+        ReLU [label="ReLU"];
+        FC2 [label="Linear\n(channels // reduction, channels)"];
+        Sigmoid [label="Sigmoid"];
+        { rank=same FC1 ReLU FC2 Sigmoid }
+        FC1 -> ReLU -> FC2 -> Sigmoid;
+    }
+    
     subgraph cluster_bottleneck {
         label="BottleneckResidualBlock";
         Conv2a [label="Conv2D\n(kernel_size=3, stride=2, padding=1)"];
@@ -18,10 +28,11 @@ digraph G {
         Add [label="Addition"];
         ReLU2b [label="ReLU"];
         Downsample [label="Downsample\n(Conv2D + BatchNorm2D)"];
-        { rank=same; Conv2a -> BN2a -> ReLU2a -> Conv2b -> BN2b -> SE -> Add -> ReLU2b; Downsample }
+        { rank=same Conv2a BN2a ReLU2a Conv2b BN2b SE Add ReLU2b Downsample }
         Conv2a -> BN2a -> ReLU2a -> Conv2b -> BN2b -> SE;
-        SE -> Add;
+        SE -> Add -> ReLU2b;
         Downsample -> Add [constraint=false, style=dotted];
+        { rank=same SE FC1}
     }
     
     subgraph cluster_stem {
@@ -56,8 +67,10 @@ digraph G {
     Input -> Conv1;
     ReLU1 -> BRB1;
     BRB3 -> Conv2;
+    SE -> FC1 [style=dotted, arrowhead=none];
     
     // Aligning BottleneckResidualBlock to the left of Input
     { rank=same; InvisibleNode [style=invis]; Input }
     Conv2a -> InvisibleNode [style=invis];
+    
 }
