@@ -29,7 +29,7 @@ This project implements a chess engine using self-play imitation learning.
 
 ### Model Architectures
 - **Simple Model**:
-  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/simple-model.png" width="55%" title="Simple Model"/></p>
+  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/simple-model.png" width="65%" title="Simple Model"/></p>
 - **Complex Model**:
   <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/complex-model.png" /></p>
 
