@@ -1,5 +1,6 @@
 digraph G {
     rankdir=LR;
+    compound=true;
     node [shape=rect, style=filled, color=lightblue2, fontsize=10, fontname="Arial"];
 
     subgraph cluster_input {
@@ -9,7 +10,6 @@ digraph G {
 
     subgraph cluster_conv {
         label="Convolutional Layers";
-        // rankdir=ORTHO;
         Conv1 [label="Conv2D(14, 32)\nkernel_size=3, stride=1, padding=1"];
         ReLU1 [label="ReLU"];
         MaxPool1 [label="MaxPool\nkernel_size=2, stride=2"];
@@ -22,7 +22,6 @@ digraph G {
 
     subgraph cluster_fc {
         label="Fully Connected Layers";
-        // rankdir=ORTHO;
         Flatten [label="Flatten"];
         Dense1 [label="Dense(64*2*2, 1000)"];
         ReLU3 [label="ReLU"];
@@ -34,10 +33,9 @@ digraph G {
         ReLU6 [label="ReLU"];
         Output [label="Dense(200, 4672)"];
         { rank=same Output ReLU6 Dense4 ReLU5 Dense3 ReLU4 Dense2 ReLU3 Dense1 Flatten }
-        MaxPool2 -> Flatten;
         Flatten -> Dense1 -> ReLU3 -> Dense2 -> ReLU4 -> Dense3 -> ReLU5 -> Dense4 -> ReLU6 -> Output;
     }
     
-    Input -> Conv1;
-    // MaxPool2 -> Flatten [style=bold];
+    Input -> Conv1 [ltail="cluster_input", lhead="cluster_conv"];
+    MaxPool2 -> Flatten [ltail="cluster_conv", lhead="cluster_fc"];
 }

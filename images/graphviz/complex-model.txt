@@ -1,10 +1,11 @@
 digraph G {
     rankdir=LR;
+    compound=true; 
     node [shape=rect, style=filled, color=lightblue2, fontsize=11, fontname="Arial"];
-
+    
     subgraph cluster_input {
         label="Input";
-        Input [label="Input\n(batch_size, 8, 8, 14)"];
+        Input [label="Input\n\n(batch_size, 8, 8, 14)"];
     }
     
     subgraph cluster_bottleneck {
@@ -64,13 +65,13 @@ digraph G {
         Conv2 -> BN2 -> ReLU2 -> Flatten -> Dense;
     }
 
-    Input -> Conv1;
-    ReLU1 -> BRB1;
-    BRB3 -> Conv2;
-    SE -> FC1 [style=dotted, arrowhead=none];
+    Input -> Conv1 [ltail="cluster_input", lhead="cluster_stem"];
+    ReLU1 -> BRB1 [ltail="cluster_stem", lhead="cluster_residual"];
+    BRB3 -> Conv2 [ltail="cluster_residual", lhead="cluster_policy"];
+    SE -> ReLU [arrowhead=none, ltail="SE", lhead="cluster_squeeze_excitation"];
+    Conv2a -> Input [style=invis];
 
-    // Aligning BottleneckResidualBlock to the left of Input
-    { rank=same; InvisibleNode [style=invis]; Input; }
-    Conv2a -> InvisibleNode [style=invis];
+    // { rank=same; InvisibleNode [style=invis]; Input; }
+    // Conv2a -> InvisibleNode [style=invis];
     
 }
