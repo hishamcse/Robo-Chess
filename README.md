@@ -31,7 +31,7 @@ This project implements a chess engine using self-play imitation learning.
 - **Simple Model**:
   <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/simple-model.png" width="65%" title="Simple Model"/></p>
 - **Complex Model**:
-  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/complex-model.png" height="620"/></p>
+  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/complex-model.png" /></p>
 
 ## kaggle-chess-competition
 Kaggle competition solutions for training an AI to play chess.
