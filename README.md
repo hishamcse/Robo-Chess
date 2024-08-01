@@ -16,6 +16,7 @@ This project implements a chess engine using self-play imitation learning.
    - [gym-chess official](https://github.com/iamlucaswolf/gym-chess)
    - [How to play chess](https://www.chess.com/learn-how-to-play-chess)
    - [python-chess](https://python-chess.readthedocs.io/en/latest/)
+   - [CrazyAra](https://github.com/QueensGambit/CrazyAra/wiki/Model-architecture)
 
 ### Directory Structure
 - **data/**: Contains training and validation datasets.
@@ -28,7 +29,7 @@ This project implements a chess engine using self-play imitation learning.
 
 ### Model Architectures
 - **Simple Model**:
-  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/simple-model.png" width="50%" title="Simple Model"/></p>
+  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/simple-model.png" width="60%" title="Simple Model"/></p>
 - **Complex Model**:
   <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/complex-model.png" /></p>
 
