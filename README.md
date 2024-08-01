@@ -29,9 +29,9 @@ This project implements a chess engine using self-play imitation learning.
 
 ### Model Architectures
 - **Simple Model**:
-  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/simple-model.png" width="60%" title="Simple Model"/></p>
-- **Complex Model**:<br />
-  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/complex-model.png"/></p>
+  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/simple-model.png" width="55%" title="Simple Model"/></p>
+- **Complex Model**:
+  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/complex-model.png" /></p>
 
 ## kaggle-chess-competition
 Kaggle competition solutions for training an AI to play chess.
@@ -93,3 +93,4 @@ The **Chess-Engine-Self-Play-Imitation** approach showed great promise but deman
 - [python-chess](https://python-chess.readthedocs.io/en/latest/)
 - [Github Codebase](https://github.com/Nishantsgithub/Chess-AI-Development-Using-Reinforcement-Learning)
 - [Report Paper](https://github.com/Nishantsgithub/Chess-AI-Development-Using-Reinforcement-Learning/blob/main/Dissertation.pdf)
+- [GraphViz](https://dreampuf.github.io/GraphvizOnline)
