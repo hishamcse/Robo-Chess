@@ -1,6 +1,6 @@
 <h2 align="center"> Robo-Chess </h2>
 <p align="center">
-<img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/chess.png" width="40%"/>
+<img src="https://github.com/hishamcse/Robo-Chess/blob/main/Chess-Engine-Self-Play-Imitation/images/chess.png" width="40%"/>
 </p>
 
 **Robo-Chess**, a comprehensive repository dedicated to developing chess engines using a variety of **Deep Reinforcement Learning** techniques. This repository includes multiple projects, each focusing on different solutions of chess AI, from self-play imitation learning or endgame solving with deep Q-networks to Modified AlphaZero Algorithm implementation. It also adds solution to a kaggle chess competition.
@@ -70,7 +70,7 @@ This project implements a chess engine using modified AlphaZero algorithm.
 
 ### Model Architectures
 - **Original Model**:
-  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/AlphaZero-Modified-Chess-Engine/images/alphazero-model.png" width="65%" title="Simple Model"/></p>
+  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/AlphaZero-Modified-Chess-Engine/images/alphazero-model.png" title="Simple Model"/></p>
 - **Modified Model**:
   <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/AlphaZero-Modified-Chess-Engine/images/alphazero-complex-model.png" /></p>
 
