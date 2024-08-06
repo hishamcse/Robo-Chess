@@ -61,11 +61,11 @@ This project implements a chess engine using modified AlphaZero algorithm.
    - [python-chess](https://python-chess.readthedocs.io/en/latest/)
 
 ### Directory Structure
-- datasets - store generated datasets by running MCTS_chess.py
-- evaluator_data - store results by running evaluator.py
-- model_data - store trained model and graph results by running train.py
-- MCTS_chess.py - implements the Monte-Carlo Tree Search (MCTS) algorithm based on Polynomial Upper Confidence Trees (PUCT) method for leaf transversal. This generates datasets (state, policy, value) for neural network training
-- alpha_net.py - PyTorch implementation of the modified AlphaGoZero neural network architecture 
+- **datasets** - store generated datasets by running MCTS_chess.py
+- **evaluator_data** - store results by running evaluator.py
+- **model_data** - store trained model and graph results by running train.py
+- **MCTS_chess.py** - implements the Monte-Carlo Tree Search (MCTS) algorithm based on Polynomial Upper Confidence Trees (PUCT) method for leaf transversal. This generates datasets (state, policy, value) for neural network training
+- **alpha_net.py** - PyTorch implementation of the modified AlphaGoZero neural network architecture 
 - Rests are self-explanatory
 
 ### Model Architectures
