@@ -3,7 +3,7 @@
 <img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/chess.png" width="40%"/>
 </p>
 
-**Robo-Chess**, a comprehensive repository dedicated to developing chess engines using a variety of **Deep Reinforcement Learning** techniques. This repository includes multiple projects, each focusing on different aspects of chess AI, from self-play imitation learning to endgame solving with deep Q-networks. It also adds solution to a kaggle chess competition.
+**Robo-Chess**, a comprehensive repository dedicated to developing chess engines using a variety of **Deep Reinforcement Learning** techniques. This repository includes multiple projects, each focusing on different solutions of chess AI, from self-play imitation learning or endgame solving with deep Q-networks to Modified AlphaZero Algorithm implementation. It also adds solution to a kaggle chess competition.
 
 # Table of Contents
 
@@ -48,6 +48,44 @@ This project implements a chess engine using self-play imitation learning.
 - **Complex Model**:
   <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/complex-model.png" /></p>
 
+### Limitation
+The **Chess-Engine-Self-Play-Imitation** approach showed great promise but demanded significant computational resources. For example, by using the complex architecture, training just one epoch with 40% of the data (approximately 120K board positions and moves from Lichess's highest-rated games) took several minutes. Consequently, I couldn't utilize the entire 465K dataset for training. This made developing a robust model quite challenging. The best model I trained could compete with a 600 ELO Stockfish agent, but it ultimately lost.
+
+## AlphaZero-Inspired-Chess-Engine
+This project implements a chess engine using modified AlphaZero algorithm.
+
+**Adapted & Extended From:**
+   - [Original AlphaZero](https://github.com/geochri/AlphaZero_Chess)
+   - [AlphaZero With GUI](https://github.com/davnords/chess-engine)
+   - [AlphaZero Paper](https://arxiv.org/abs/1712.01815)
+   - [python-chess](https://python-chess.readthedocs.io/en/latest/)
+
+### Directory Structure
+- datasets - store generated datasets by running MCTS_chess.py
+- evaluator_data - store results by running evaluator.py
+- model_data - store trained model and graph results by running train.py
+- MCTS_chess.py - implements the Monte-Carlo Tree Search (MCTS) algorithm based on Polynomial Upper Confidence Trees (PUCT) method for leaf transversal. This generates datasets (state, policy, value) for neural network training
+- alpha_net.py - PyTorch implementation of the modified AlphaGoZero neural network architecture 
+- Rests are self-explanatory
+
+### Model Architectures
+- **Original Model**:
+  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob\main\AlphaZero-Modified-Chess-Engine\images\alphazero-model.png" width="65%" title="Simple Model"/></p>
+- **Modified Model**:
+  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob\main\AlphaZero-Modified-Chess-Engine\images\alphazero-model-complex.png" /></p>
+
+### How to Run
+- Run pipeline.py to start the MCTS search and neural net training process. Change the folder and net saved names accordingly. Note that for the first time, you will need to create and save a random, initialized alpha_net for loading.
+
+OR
+
+- Run the MCTS_chess.py to generate self-play datasets. Note that for the first time, you will need to create and save a random, initialized alpha_net for loading. 
+
+- Run train.py to train the modified alpha_net with the datasets.
+
+- At predetermined checkpoints, run evaluator.py to evaluate the trained net against the neural net from previous iteration. Saves the neural net that performs better. Multiprocessing is enabled, which shares the PyTorch net model in a single CUDA GPU across 6 CPUs workers each running a MCTS self-play. 
+
+
 ## kaggle-chess-competition
 Kaggle competition solutions for training an AI to play chess.
 
@@ -84,9 +122,6 @@ This project focuses on endgame solving using DQN (Deep Q-Network) and DDQN (Dou
 ## Notebooks on Kaggle
 - [Robo-Chess: Chess AI Self Play Imitation](https://www.kaggle.com/code/syedjarullahhisham/robo-chess-chess-ai-self-play-imitation)
 - [Robo-Chess: Chess AI Global Hack Competition](https://www.kaggle.com/code/syedjarullahhisham/robo-chess-chess-ai-global-hack-competition)
-
-## Limitations
-The **Chess-Engine-Self-Play-Imitation** approach showed great promise but demanded significant computational resources. For example, by using the complex architecture, training just one epoch with 40% of the data (approximately 120K board positions and moves from Lichess's highest-rated games) took several minutes. Consequently, I couldn't utilize the entire 465K dataset for training. This made developing a robust model quite challenging. The best model I trained could compete with a 600 ELO Stockfish agent, but it ultimately lost.
 
 ## Acknowledgements
 - [Eivind Kjosbakken](https://www.freecodecamp.org/news/author/kjosbakken/)

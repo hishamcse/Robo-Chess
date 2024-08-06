@@ -1,0 +1,110 @@
+digraph ChessNet {
+    rankdir=LR;
+    compound=true; 
+    node [shape=rect, style=filled, color=lightskyblue, fontsize=11, fontname="Arial"];
+    
+    subgraph cluster_input {
+        label="Input";
+        Input [label="Input\n\n(batch_size, 22, 8, 8)"];
+    }
+    
+    subgraph cluster_conv_block {
+        label="ConvBlock";
+        conv1 [label="Conv2D(22, 256, 3, 1, 1)"];
+        bn1 [label="BatchNorm2D(256)"];
+        relu1 [label="ReLU"];
+        conv2 [label="Conv2D(256, 256, 3, 1, 1)"];
+        bn2 [label="BatchNorm2D(256)"];
+        res_conv [label="Conv2D(22, 256, 1)"];
+        relu2 [label="ReLU"];
+        { rank=same conv1 bn1 relu1 conv2 bn2 res_conv relu2 }
+        conv1 -> bn1 -> relu1 -> conv2 -> bn2 -> res_conv -> relu2;
+    }
+
+    subgraph cluster_depthwise_separable_conv {
+        label="DepthwiseSeparableConv";
+        depthwise [label="Conv2D(in_channels, in_channels, 3, 1, 1)"];
+        pointwise [label="Conv2D(in_channels, out_channels, 1)"];
+        bn_dw [label="BatchNorm2D(out_channels)"];
+        relu_dw [label="ReLU"];
+        { rank=same depthwise pointwise bn_dw relu_dw }
+        depthwise -> pointwise -> bn_dw -> relu_dw;
+    }
+    
+    subgraph cluster_se_block {
+        label="SEBlock";
+        avgpool [label="AvgPool2D"];
+        fc1_se [label="Linear(channels, channels // reduction)"];
+        relu_se [label="ReLU"];
+        fc2_se [label="Linear(channels // reduction, channels)"];
+        sigmoid_se [label="Sigmoid"];
+        { rank=same avgpool fc1_se relu_se fc2_se sigmoid_se }
+        avgpool -> fc1_se -> relu_se -> fc2_se -> sigmoid_se;
+    }
+    
+    subgraph cluster_res_blocks {
+        label="ResBlocks";
+
+        subgraph cluster_res_block_0 {
+            label="ResBlock_0";
+            conv2a_0 [label="DepthwiseSeparableConv\n(256, 256)"];
+            bn2a_0 [label="BatchNorm2D(256)"];
+            relu2a_0 [label="ReLU"];
+            conv2b_0 [label="DepthwiseSeparableConv\n(256, 256)"];
+            bn2b_0 [label="BatchNorm2D(256)"];
+            se_0 [label="SEBlock"];
+            add_0 [label="Addition"];
+            relu2c_0 [label="ReLU"];
+            { rank=same conv2a_0 bn2a_0 relu2a_0 conv2b_0 bn2b_0 se_0 add_0 relu2c_0 }
+            conv2a_0 -> bn2a_0 -> relu2a_0 -> conv2b_0 -> bn2b_0 -> se_0 -> add_0 -> relu2c_0;
+        }
+        
+        subgraph cluster_res_block_9 {
+            label="ResBlock_9";
+            conv2a_9 [label="DepthwiseSeparableConv\n(256, 256)"];
+            bn2a_9 [label="BatchNorm2D(256)"];
+            relu2a_9 [label="ReLU"];
+            conv2b_9 [label="DepthwiseSeparableConv\n(256, 256)"];
+            bn2b_9 [label="BatchNorm2D(256)"];
+            se_9 [label="SEBlock"];
+            add_9 [label="Addition"];
+            relu2c_9 [label="ReLU"];
+            { rank=same conv2a_9 bn2a_9 relu2a_9 conv2b_9 bn2b_9 se_9 add_9 relu2c_9 }
+            conv2a_9 -> bn2a_9 -> relu2a_9 -> conv2b_9 -> bn2b_9 -> se_9 -> add_9 -> relu2c_9;
+        }
+    }
+    
+    subgraph cluster_out_block {
+        label="OutBlock";
+        
+        subgraph cluster_value_head {
+            label="Value Head";
+            conv_v [label="Conv2D(256, 1, 1)"];
+            bn_v [label="BatchNorm2D(1)"];
+            relu_v1 [label="ReLU"];
+            fc1_v [label="Linear(8*8, 64)"];
+            relu_v2 [label="ReLU"];
+            fc2_v [label="Linear(64, 1)"];
+            tanh_v [label="Tanh"];
+            { rank=same conv_v bn_v relu_v1 fc1_v relu_v2 fc2_v tanh_v }
+            conv_v -> bn_v -> relu_v1 -> fc1_v -> relu_v2 -> fc2_v -> tanh_v;
+        }
+        
+        subgraph cluster_policy_head {
+            label="Policy Head";
+            conv_p [label="Conv2D(256, 128, 1)"];
+            bn_p [label="BatchNorm2D(128)"];
+            relu_p [label="ReLU"];
+            flatten_p [label="Flatten"];
+            fc_p [label="Linear(8*8*128, 8*8*73)"];
+            logsoftmax_p [label="LogSoftmax"];
+            { rank=same conv_p bn_p relu_p flatten_p fc_p logsoftmax_p }
+            conv_p -> bn_p -> relu_p -> flatten_p -> fc_p -> logsoftmax_p;
+        }
+    }
+
+    Input -> conv1 [ltail="cluster_input", lhead="cluster_conv_block"];
+    res_conv -> conv2a_0 [ltail="cluster_conv_block", lhead="cluster_res_blocks"];
+    relu2c_9 -> conv_v [ltail="cluster_res_blocks", lhead="cluster_out_block"];
+    conv2a_0 -> conv2a_9 [ltail="cluster_res_block_0", lhead="cluster_res_block_9"]
+}

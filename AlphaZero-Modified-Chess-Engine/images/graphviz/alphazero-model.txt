@@ -1,0 +1,85 @@
+digraph ChessNet {
+    rankdir=LR;
+    compound=true; 
+    node [shape=rect, style=filled, color=lightskyblue, fontsize=12, fontname="Arial"];
+    
+    subgraph cluster_input {
+        label="Input";
+        Input [label="Input\n\n(batch_size, 22, 8, 8)"];
+    }
+    
+    subgraph cluster_conv_block {
+        label="ConvBlock";
+        conv1 [label="Conv2D(22, 256, 3, 1, 1)"];
+        bn1 [label="BatchNorm2D(256)"];
+        relu1 [label="ReLU"];
+        { rank=same conv1 bn1 relu1 }
+        conv1 -> bn1 -> relu1;
+    }
+    
+    subgraph cluster_res_blocks {
+        label="ResBlocks";
+        
+        subgraph cluster_res_block_0 {
+            label="ResBlock_0";
+            conv2a_0 [label="Conv2D(256, 256, 3, 1, 1)"];
+            bn2a_0 [label="BatchNorm2D(256)"];
+            relu2a_0 [label="ReLU"];
+            conv2b_0 [label="Conv2D(256, 256, 3, 1, 1)"];
+            bn2b_0 [label="BatchNorm2D(256)"];
+            add_0 [label="Addition"];
+            relu2b_0 [label="ReLU"];
+            { rank=same conv2a_0 bn2a_0 relu2a_0 conv2b_0 bn2b_0 add_0 relu2b_0 }
+            conv2a_0 -> bn2a_0 -> relu2a_0 -> conv2b_0 -> bn2b_0;
+            bn2b_0 -> add_0 -> relu2b_0;
+        }
+        
+        subgraph cluster_res_block_18 {
+            label="ResBlock_18";
+            conv2a_18 [label="Conv2D(256, 256, 3, 1, 1)"];
+            bn2a_18 [label="BatchNorm2D(256)"];
+            relu2a_18 [label="ReLU"];
+            conv2b_18 [label="Conv2D(256, 256, 3, 1, 1)"];
+            bn2b_18 [label="BatchNorm2D(256)"];
+            add_18 [label="Addition"];
+            relu2b_18 [label="ReLU"];
+            { rank=same conv2a_18 bn2a_18 relu2a_18 conv2b_18 bn2b_18 add_18 relu2b_18 }
+            conv2a_18 -> bn2a_18 -> relu2a_18 -> conv2b_18 -> bn2b_18;
+            bn2b_18 -> add_18 -> relu2b_18;
+        }
+    }
+    
+    subgraph cluster_out_block {
+        label="OutBlock";
+        
+        subgraph cluster_value_head {
+            label="Value Head";
+            conv_v [label="Conv2D(256, 1, 1)"];
+            bn_v [label="BatchNorm2D(1)"];
+            relu_v1 [label="ReLU"];
+            fc1_v [label="Linear(8*8, 64)"];
+            relu_v2 [label="ReLU"];
+            fc2_v [label="Linear(64, 1)"];
+            tanh_v [label="Tanh"];
+            { rank=same conv_v bn_v relu_v1 fc1_v relu_v2 fc2_v tanh_v }
+            conv_v -> bn_v -> relu_v1 -> fc1_v -> relu_v2 -> fc2_v -> tanh_v;
+        }
+        
+        subgraph cluster_policy_head {
+            label="Policy Head";
+            conv_p [label="Conv2D(256, 128, 1)"];
+            bn_p [label="BatchNorm2D(128)"];
+            relu_p [label="ReLU"];
+            flatten_p [label="Flatten"];
+            fc_p [label="Linear(8*8*128, 8*8*73)"];
+            logsoftmax_p [label="LogSoftmax"];
+            { rank=same conv_p bn_p relu_p flatten_p fc_p logsoftmax_p }
+            conv_p -> bn_p -> relu_p -> flatten_p -> fc_p -> logsoftmax_p;
+        }
+    }
+    
+    Input -> conv1 [ltail="cluster_input", lhead="cluster_conv_block"];
+    relu1 -> conv2a_0 [ltail="cluster_conv_block", lhead="cluster_res_blocks"];
+    relu2b_18 -> conv_v [ltail="cluster_res_blocks", lhead="cluster_out_block"];
+    conv2a_0 -> conv2a_18 [ltail="cluster_res_block_0", lhead="cluster_res_block_18"]
+}
