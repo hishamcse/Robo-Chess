@@ -44,9 +44,9 @@ This project implements a chess engine using self-play imitation learning.
 
 ### Model Architectures
 - **Simple Model**:
-  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/simple-model.png" width="65%" title="Simple Model"/></p>
+  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/tree/main/Chess-Engine-Self-Play-Imitation/images/simple-model.png" width="65%" title="Simple Model"/></p>
 - **Complex Model**:
-  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/images/complex-model.png" /></p>
+  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/tree/main/Chess-Engine-Self-Play-Imitation/images/complex-model.png" /></p>
 
 ### Limitation
 The **Chess-Engine-Self-Play-Imitation** approach showed great promise but demanded significant computational resources. For example, by using the complex architecture, training just one epoch with 40% of the data (approximately 120K board positions and moves from Lichess's highest-rated games) took several minutes. Consequently, I couldn't utilize the entire 465K dataset for training. This made developing a robust model quite challenging. The best model I trained could compete with a 600 ELO Stockfish agent, but it ultimately lost.
@@ -70,9 +70,9 @@ This project implements a chess engine using modified AlphaZero algorithm.
 
 ### Model Architectures
 - **Original Model**:
-  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob\main\AlphaZero-Modified-Chess-Engine\images\alphazero-model.png" width="65%" title="Simple Model"/></p>
+  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/AlphaZero-Modified-Chess-Engine/images/alphazero-model.png" width="65%" title="Simple Model"/></p>
 - **Modified Model**:
-  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob\main\AlphaZero-Modified-Chess-Engine\images\alphazero-model-complex.png" /></p>
+  <p align="center"><img src="https://github.com/hishamcse/Robo-Chess/blob/main/AlphaZero-Modified-Chess-Engine/images/alphazero-complex-model.png" /></p>
 
 ### How to Run
 - Run pipeline.py to start the MCTS search and neural net training process. Change the folder and net saved names accordingly. Note that for the first time, you will need to create and save a random, initialized alpha_net for loading.
